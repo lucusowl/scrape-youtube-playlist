@@ -1,0 +1,35 @@
+# environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# temporary
+data/
+temp/
+tmp/
+test/
+*test*
+*.log
+
+# complied / packaging / distribution
+__pycache__/
+*$py.class
+build/
+dist/
+downloads/
+lib/
+var/
+wheels/
+share/python-wheels/
+MANIFEST
+*.manifest
+*.spec
+
+# 
+.ipynb_checkpoints
+.scrapy
+.nox/
