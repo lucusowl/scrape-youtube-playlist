@@ -39,10 +39,6 @@ def authenticate_youtube():
 	flow = google_auth_oauthlib.flow.InstalledAppFlow.from_client_secrets_file(CREDENTIALS_FILE, SCOPES)
 	credentials = flow.run_local_server(port=0)
 	youtube = googleapiclient.discovery.build(API_SERVICE_NAME, API_VERSION, credentials=credentials)
-
-	if not youtube:
-		raise Exception("There is no authenticated Youtube API Client.")
-
 	return youtube
 
 def read_target(filename:str) -> dict:
@@ -160,9 +156,6 @@ def main():
 	LOGGER.info("START PROCESS")
 	wsts = time.perf_counter()
 
-	# 초기 설정
-	setup_logging()
-
 	# YouTube API 클라이언트 인증
 	youtube = authenticate_youtube()
 
@@ -186,4 +179,5 @@ def main():
 	LOGGER.info(f"FINISH PROCESS in (total:{wets-wsts:.5f}s, focus:{wets-lsts:.5f}s)")
 
 if __name__ == "__main__":
+	setup_logging()
 	main()
