@@ -6,14 +6,9 @@ venv/
 ENV/
 env.bak/
 venv.bak/
-
-# temporary
-data/
-temp/
-tmp/
-test/
-*test*
-*.log
+.idea/
+.vscode/
+.DS_Store
 
 # complied / packaging / distribution
 __pycache__/
@@ -28,8 +23,27 @@ share/python-wheels/
 MANIFEST
 *.manifest
 *.spec
+*.local
 
 # 
 .ipynb_checkpoints
 .scrapy
 .nox/
+
+# 
+api/
+secret*
+!secret*.enc
+credentials.json
+src/*.csv
+
+# temporary / test
+data/
+temp/
+tmp/
+test/
+log/
+logs/
+*test
+*.log
+.history
