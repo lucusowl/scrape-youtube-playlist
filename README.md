@@ -1,5 +1,5 @@
 # Scrape Youtube Playlist
-v1.0.0
+v1.1.0
 
 지정한 Youtube playlist 의 모든 영상들의 정보를 수집  
 
@@ -31,20 +31,27 @@ v1.0.0
 
 3. 재생목록 정보 준비
 
-	[`target.json`](./src/target.json)에 수집할 재생목록 URL의 Query String에서 `list` 필드의 값(재생목록ID)을 아래와 같이 작성
+	[`target.json`](./src/target.json)에 예시와 같이 작성. *key*는 결과물의 이름, *value*는 아래의 항목 중 하나를 선택하여 작성  
+
+	- 재생목록 URL의 Query String에서 `list` 필드의 값 (재생목록ID)
+	- [Google Takeout](https://takeout.google.com/)와 같은 방법으로 추출한 [재생목록 csv 파일](## "각 영상의 ID, 재생목록에 추가한 타임스탬프로 구성")의 경로
+
 	```json
 	{
 		"name1": "playlist1-id",
-		"name2": "playlist2-id",
+		"name2": "playlist2-filePath.csv",
 		"...": "..."
 	}
 	```
 
 	> [!NOTE]
 	> YouTube Data API로 가져올 수 없는 재생목록은 아래에 해당 [^1] [^2]
+	>
 	> - "나중에 볼 동영상" (재생목록ID: `WL`)
 	> - "시청 기록" (재생목록ID: `HL`)
-
+	>
+	> 위 재생목록은 **[Google Takeout](https://takeout.google.com/)을 통해서** 추출 가능.
+	> "나중에 볼 동영상"은 CSV 파일로 내보내기, "시청 기록"은 HTML 또는 JSON 파일로 내보내기
 
 ### 실행 Run
 
@@ -52,6 +59,8 @@ v1.0.0
 cd src
 python main.py
 ```
+
+## Appendix
 
 [^1]: https://developers.google.com/youtube/v3/revision_history#september-15,-2016 "Youtube Data API 업데이트 기록, 2016.09.15 이후 불가"
 [^2]: https://stackoverflow.com/questions/46987690/tracking-youtube-watch-history/47117301#47117301 "stackoverflow, 17.10.28, tracking watch history disabled"

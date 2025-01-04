@@ -10,6 +10,7 @@ import multiprocessing
 import google_auth_oauthlib.flow
 import googleapiclient.discovery
 import googleapiclient.errors
+from pathlib import Path
 
 # YOUTUBE API Configuration
 SCOPES = ["https://www.googleapis.com/auth/youtube.readonly"]
@@ -77,6 +78,26 @@ def multiprocess_work(youtube, playlist_id:str, playlist_name:str) -> None:
 
 		return videos
 
+	def get_playlist_items_from_file(playlist_file_name:str) -> list[dict]:
+		"""재생목록 파일의 영상 정보 읽어오기"""
+		videos = []
+		try:
+			with open(Path(playlist_file_name), encoding='utf-8') as f:
+				reader = csv.reader(f)
+				head_size = len(next(reader))
+				for row in reader:
+					if len(row) == head_size:
+						videos.append({
+							"videoId": row[0],
+							"addList": row[1]
+						})
+		except FileNotFoundError as e:
+			LOGGER.error(f'No File Existed Found:{playlist_file_name}:{e}')
+		except Exception as e:
+			LOGGER.error(f'OCCUR Exception:{e}')
+
+		return videos
+
 	def get_video_details(youtube, video_ids:list) -> list[dict]:
 		"""영상 상세 정보 가져오기"""
 		video_details = []
@@ -119,7 +140,10 @@ def multiprocess_work(youtube, playlist_id:str, playlist_name:str) -> None:
 	sts = time.perf_counter()
 
 	# 1. 재생목록에서 모든 영상 가져오기
-	videos = get_playlist_items(youtube, playlist_id)
+	if playlist_id.endswith('.csv'):
+		videos = get_playlist_items_from_file(playlist_id)
+	else:
+		videos = get_playlist_items(youtube, playlist_id)
 	LOGGER.info(f"Get #{len(videos)} videos in {playlist_name}")
 
 	# 2. 영상 상세 정보 가져오기
